@@ -1,0 +1,10 @@
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\obj\Debug\valheimEnhancments.Build.csproj.AssemblyReference.cache
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\obj\Debug\valheimEnhancments.Build.csproj.CoreCompileInputs.cache
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\bin\Debug\valheimEnhancments.Build.exe.config
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\bin\Debug\valheimEnhancments.Build.exe
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\bin\Debug\valheimEnhancments.Build.pdb
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\bin\Debug\Bullseye.dll
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\bin\Debug\Bullseye.xml
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\obj\Debug\valheimEnhancments.Build.csproj.CopyComplete
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\obj\Debug\valheimEnhancments.Build.exe
+C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Build\obj\Debug\valheimEnhancments.Build.pdb

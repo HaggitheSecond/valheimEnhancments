@@ -1,0 +1,26 @@
+﻿using System.Collections.Generic;
+
+namespace valheimEnhancments.commands.chains
+{
+    public abstract class valheimEnhancmentsChainCommand : valheimEnhancmentsCommand
+    {
+        public abstract List<valheimEnhancmentsCommand> Commands { get; }
+
+        public virtual string[] ModifyArguments(string[] arguments)
+        {
+            return arguments;
+        }
+
+        public override void Execute(Terminal instance, string[] arguments)
+        {
+            arguments = this.ModifyArguments(arguments);
+
+            foreach (var currentCommand in Commands)
+            {
+                currentCommand.Execute(instance, arguments);
+            }
+
+            instance.AddString($"Executed chain command {Name}");
+        }
+    }
+}
