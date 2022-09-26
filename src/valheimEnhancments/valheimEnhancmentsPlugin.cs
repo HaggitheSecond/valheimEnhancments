@@ -67,19 +67,5 @@ namespace valheimEnhancments
                .Cast<valheimEnhancmentsCommand>()
                .ToList();
         }
-
-
-        [HarmonyPatch(typeof(Terminal), "AddString")]
-        private static class valheimEnhancmentsTerminalTryRunCommandModification
-        {
-            private static bool Prefix(Terminal __instance, string text)
-            {
-                if (__instance == null || string.IsNullOrWhiteSpace(text))
-                    return true;
-
-                ZLog.Log($"{__instance.GetType().Name}: AddString: {text}");
-                return true;
-            }
-        }
     }
 }

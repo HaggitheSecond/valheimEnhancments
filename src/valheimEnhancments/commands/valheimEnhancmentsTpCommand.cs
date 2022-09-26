@@ -95,14 +95,14 @@ namespace valheimEnhancments.commands
         {
             var locations = new List<Location>
             {
-                new Location("Spawn", 0, 0),
+                new Location("Spawn", Minimap.PinType.None, 0, 0),
 
-                new Location("North", 0, 10000),
-                new Location("South", 0, -10000),
-                new Location("West", -10000, 0),
-                new Location("East", 10000, 0),
+                new Location("North", Minimap.PinType.None, 0, 10000),
+                new Location("South", Minimap.PinType.None, 0, -10000),
+                new Location("West", Minimap.PinType.None, -10000, 0),
+                new Location("East", Minimap.PinType.None, 10000, 0),
 
-                new Location("Random", () =>
+                new Location("Random", Minimap.PinType.None, () =>
                 {
                     var x = Random.Range(-10000, 10000);
                     var y = Random.Range(-10000, 10000);
@@ -141,11 +141,11 @@ namespace valheimEnhancments.commands
 
                     case Minimap.PinType.Boss:
                         name = GetBossName(currentPin);
-                        y = y + 10;
+                        y += 10; // slight offset so 
                         break;
 
                     case Minimap.PinType.Death:
-                        name = "Death";
+                        name = GetDeath(currentPin);
                         break;
 
                     case Minimap.PinType.Bed:
@@ -166,10 +166,16 @@ namespace valheimEnhancments.commands
                 }
 
                 if (string.IsNullOrWhiteSpace(name) == false)
-                    locations.Add(new Location(name, x, z, y <= 0.1 ? (float?) null : y));
+                    locations.Add(new Location(name, currentPin.m_type, x, z, y <= 0.1 ? (float?) null : y));
             }
 
             return locations;
+
+            string GetDeath(Minimap.PinData pinData)
+            {
+                var deathCount = locations.Count(f => f.Type == Minimap.PinType.Death);
+                return deathCount == 0 ? "Death" : "Death" + deathCount;
+            }
 
             string GetBossName(Minimap.PinData pinData)
             {
@@ -194,13 +200,16 @@ namespace valheimEnhancments.commands
 
             public Func<(float x, float y, float? z)> GetCoordinates { get; }
 
-            private Location(string name)
+            public Minimap.PinType Type { get; }
+
+            private Location(string name, Minimap.PinType type)
             {
                 this.Name = name;
+                this.Type = type;
             }
 
-            public Location(string name, float x, float y, float? z = null)
-                : this(name)
+            public Location(string name, Minimap.PinType type, float x, float y, float? z = null)
+                : this(name, type)
             {
                 this.GetCoordinates = () =>
                 {
@@ -208,8 +217,8 @@ namespace valheimEnhancments.commands
                 };
             }
 
-            public Location(string name, Func<(float x, float y, float? z)> getCoordinatesFunc)
-                : this(name)
+            public Location(string name, Minimap.PinType type, Func<(float x, float y, float? z)> getCoordinatesFunc)
+                : this(name, type)
             {
                 this.GetCoordinates = getCoordinatesFunc;
             }

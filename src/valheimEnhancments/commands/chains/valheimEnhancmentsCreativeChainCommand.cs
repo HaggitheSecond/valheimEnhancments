@@ -18,7 +18,10 @@ namespace valheimEnhancments.commands.chains
             new valheimEnhancmentsStaminaCommand(),
             new valheimEnhancmentsNoItemDropsCommand(),
             new valheimEnhancmentsDurabilityCommand(),
-            new valheimEnhancmentsItemClipingCommand()
+            new valheimEnhancmentsItemClipingCommand(),
+            new valheimEnhancmentsWeatherCommand(),
+            new valheimEnhancmentsScreenShakeCommand(),
+            new valheimEnhancmentsRavenCommand()
         };
 
         public override string[] ModifyArguments(string[] arguments)

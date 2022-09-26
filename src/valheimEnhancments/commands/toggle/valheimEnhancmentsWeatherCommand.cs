@@ -7,26 +7,25 @@ namespace valheimEnhancments.commands.toggle
 {
     public class valheimEnhancmentsWeatherCommand : valheimEnhancmentsToogleCommand
     {
-        public override string Name => "noweather";
+        public override string Name => "noweathereffects";
         public override string Description => "Removes all weather effects";
         public override bool GetToggleValue() => valheimEnhancmentsWeatherCommand.NoWeatherEffects;
         public override void SetToggleValue(bool newValue)
         {
             valheimEnhancmentsWeatherCommand.NoWeatherEffects = newValue;
 
-            foreach (var currentBiome in Enum.GetValues(typeof(Heightmap.Biome)) as Heightmap.Biome[])
-            {
-                ZLog.Log("getting for biome " + currentBiome);
+            //foreach (var currentBiome in Enum.GetValues(typeof(Heightmap.Biome)) as Heightmap.Biome[])
+            //{
+            //    ZLog.Log("getting for biome " + currentBiome);
 
-                var available = AccessTools.Method(typeof(EnvMan), "GetAvailableEnvironments").Invoke(EnvMan.instance, new object[]
-                {
-                    currentBiome
-                }) as List<EnvEntry>;
+            //    var available = AccessTools.Method(typeof(EnvMan), "GetAvailableEnvironments").Invoke(EnvMan.instance, new object[]
+            //    {
+            //        currentBiome
+            //    }) as List<EnvEntry>;
 
-                if (available != null)
-                    ZLog.Log($"{currentBiome}:{string.Join("|", available.Select(f => f.m_environment))}");
-            }
-
+            //    if (available != null)
+            //        ZLog.Log($"{currentBiome}:{string.Join("|", available.Select(f => f.m_environment))}");
+            //}
         }
 
         public static bool NoWeatherEffects { get; set; }

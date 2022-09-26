@@ -25,10 +25,14 @@ noitemclip: Removes all placment checks while building
             /noitemclip none or [true/false]
 noitemdrops: Removes all item drops
              /noitemdrops none or [true/false]
+noraven: Turns off the hint raven
+         /noraven none or [true/false]
+noscreenshake: Turns off screen shake when hit by an enemy
+               /noscreenshake none or [true/false]
 nostaminadrain: Removes all stamina drain
                 /nostaminadrain none or [true/false]
-noweather: Removes all weather effects
-           /noweather none or [true/false]
+noweathereffects: Removes all weather effects
+                  /noweathereffects none or [true/false]
 setskills: Raises all skills to [value]
            /setskills none or [value]
 sleep: fast forwards time

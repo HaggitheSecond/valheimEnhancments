@@ -201,6 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="commands\chains\valheimEnhancmentsChainCommand.cs" />
+    <Compile Include="commands\toggle\valheimEnhancmentsRavenCommand.cs" />
+    <Compile Include="commands\toggle\valheimEnhancmentsScreenShakeCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsBuildSupportCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsDurabilityCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsItemClipingCommand.cs" />
