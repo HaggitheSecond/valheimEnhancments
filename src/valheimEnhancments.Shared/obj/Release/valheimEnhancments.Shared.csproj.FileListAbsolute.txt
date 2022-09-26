@@ -1,6 +1,0 @@
-C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Shared\bin\Release\valheimEnhancments.Shared.dll
-C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Shared\bin\Release\valheimEnhancments.Shared.pdb
-C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Shared\obj\Release\valheimEnhancments.Shared.csproj.AssemblyReference.cache
-C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Shared\obj\Release\valheimEnhancments.Shared.csproj.CoreCompileInputs.cache
-C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Shared\obj\Release\valheimEnhancments.Shared.dll
-C:\Users\haggi\source\repos\valheimEnhancments\src\valheimEnhancments.Shared\obj\Release\valheimEnhancments.Shared.pdb
