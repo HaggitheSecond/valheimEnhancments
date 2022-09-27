@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Collections.Generic;
 
 namespace valheimEnhancments.commands
 {
@@ -12,7 +10,7 @@ namespace valheimEnhancments.commands
 
         public override string Syntax => "";
 
-        public override void Execute(Terminal instance, string[] arguments)
+        public override void Execute(Terminal instance, List<string> arguments)
         {
             foreach (var item in valheimEnhancmentsPlugin.GetCommands())
             {

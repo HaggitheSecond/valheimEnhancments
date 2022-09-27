@@ -13,43 +13,21 @@ namespace valheimEnhancments.commands
         public override string Description => "teleports the player";
         public override string Syntax => "[location] or [x] [y] [z]";
 
-        private string _invalidArgumentsMessage => "Invalid arguments - " + this.Description;
+        private string _invalidArgumentsMessage => "Invalid arguments: use " + this.Syntax +
+            Environment.NewLine + "Available locations:" +
+            Environment.NewLine + string.Join(Environment.NewLine, this.GetLocations());
 
-        public override void Execute(Terminal instance, string[] arguments)
+        public override void Execute(Terminal instance, List<string> arguments)
         {
-            if (arguments == null || arguments.Length == 0)
-            {
-                instance.AddString(this._invalidArgumentsMessage);
-                return;
-            }
-
             string result;
-            switch (arguments.Length)
+            switch (arguments.Count)
             {
                 case 1:
-                    result = this.HandleLocation(arguments);
+                    result = this.HandleLocation(arguments[0]);
                     break;
                 case 2:
                 case 3:
-                    if (float.TryParse(arguments[0], out var x) == false || float.TryParse(arguments[1], out var y) == false)
-                    {
-                        result = this._invalidArgumentsMessage;
-                        break;
-                    }
-
-                    float? z = null;
-                    if (arguments.Length == 4)
-                    {
-                        if (float.TryParse(arguments[2], out var zTemp) == false)
-                        {
-                            result = this._invalidArgumentsMessage;
-                            break;
-                        }
-
-                        z = zTemp;
-                    }
-
-                    result = this.HandleCoordinates(x, y, z);
+                    result = this.HandleCoordinates(arguments);
                     break;
                 default:
                     result = this._invalidArgumentsMessage;
@@ -57,25 +35,59 @@ namespace valheimEnhancments.commands
             }
 
             instance.AddString(result);
-            ZLog.Log(result);
         }
 
-        private void Teleport(float x, float y, float? z = null)
+        // because i'm a big dummy:
+        // https://www.evl.uic.edu/ralph/508S98/coordinates.html
+        // x = left/right
+        // y = up/down
+        // z = forward/backward
+        private void Teleport(float x, float y, float z)
         {
-            Player.m_localPlayer.SetGodMode(true);
-            Console.instance.TryRunCommand(z.HasValue ? $"goto {x} {y} {z.Value}" : $"goto {x} {y}");
+            var destination = new UnityEngine.Vector3(x, y, z);
+
+            Player.m_localPlayer.TeleportTo(destination, Player.m_localPlayer.transform.rotation, true);
         }
 
-        private string HandleCoordinates(float x, float y, float? z = null)
+        private string HandleCoordinates(List<string> arguments)
+        {
+            float x = 0, y = 0, z = 0;
+
+            if (arguments.Count == 2)
+            {
+                if (float.TryParse(arguments[0], out var parsedX))
+                    x = parsedX;
+
+                if (float.TryParse(arguments[1], out var parsedZ))
+                    z = parsedZ;
+            }
+            else if (arguments.Count == 3)
+            {
+                if (float.TryParse(arguments[0], out var parsedX))
+                    x = parsedX;
+
+                if (float.TryParse(arguments[1], out var parsedY))
+                    y = parsedY;
+
+                if (float.TryParse(arguments[2], out var parsedZ))
+                    z = parsedZ;
+            }
+            else
+            {
+                return this._invalidArgumentsMessage;
+            }
+
+            return this.HandleCoordinates(x, y, z);
+        }
+
+        private string HandleCoordinates(float x, float y, float z)
         {
             this.Teleport(x, y, z);
-            return $"Teleported player {Player.m_localPlayer.GetPlayerName()} to {x} {y} {(z.HasValue ? z.Value.ToString() : string.Empty)}";
+            return $"Teleported player {Player.m_localPlayer.GetPlayerName()} to {x.FormatCoordinate()} {(y != 0 ? y.FormatCoordinate() + " " : string.Empty)}{z.FormatCoordinate()}";
         }
 
-        private string HandleLocation(string[] arguments)
+        private string HandleLocation(string locationName)
         {
-            var locationName = arguments[0];
-
             var location = this.GetLocations().FirstOrDefault(f => string.Equals(f.Name, locationName, StringComparison.InvariantCultureIgnoreCase));
 
             if (location != null)
@@ -95,22 +107,31 @@ namespace valheimEnhancments.commands
         {
             var locations = new List<Location>
             {
-                new Location("Spawn", Minimap.PinType.None, 0, 0),
+                new Location("Spawn", Minimap.PinType.None, 0, 0, 0),
 
-                new Location("North", Minimap.PinType.None, 0, 10000),
-                new Location("South", Minimap.PinType.None, 0, -10000),
-                new Location("West", Minimap.PinType.None, -10000, 0),
-                new Location("East", Minimap.PinType.None, 10000, 0),
+                new Location("North", Minimap.PinType.None, 0,0, 10000),
+                new Location("South", Minimap.PinType.None, 0,0, -10000),
+                new Location("West", Minimap.PinType.None, -10000,0, 0),
+                new Location("East", Minimap.PinType.None, 10000,0, 0),
 
                 new Location("Random", Minimap.PinType.None, () =>
                 {
                     var x = Random.Range(-10000, 10000);
-                    var y = Random.Range(-10000, 10000);
-                    return (x, y, null);
+                    var z = Random.Range(-10000, 10000);
+                    return (x, 0, z);
                 })
             };
 
             locations.AddRange(this.GetPinLocations());
+
+            foreach (var currentGroup in locations.GroupBy(f => f.Name).Where(f => f.Count() > 1))
+            {
+                var items = currentGroup.ToList();
+                for (int i = 1; i < currentGroup.Count(); i++)
+                {
+                    items[i].Name += i;
+                }
+            }
 
             return locations;
         }
@@ -120,11 +141,11 @@ namespace valheimEnhancments.commands
             var locations = new List<Location>();
 
             var pins = this.GetAllPins();
-            var unknownLocationCount = 0;
 
             foreach (var currentPin in pins)
             {
                 var name = string.Empty;
+
                 var x = currentPin.m_pos.x;
                 var y = currentPin.m_pos.y;
                 var z = currentPin.m_pos.z;
@@ -136,16 +157,15 @@ namespace valheimEnhancments.commands
                     case Minimap.PinType.Icon2:
                     case Minimap.PinType.Icon3:
                     case Minimap.PinType.Icon4:
-                        name = currentPin.m_name;
+                        name = GetUserGivenName(currentPin);
                         break;
 
                     case Minimap.PinType.Boss:
                         name = GetBossName(currentPin);
-                        y += 10; // slight offset so 
                         break;
 
                     case Minimap.PinType.Death:
-                        name = GetDeath(currentPin);
+                        name = "Death";
                         break;
 
                     case Minimap.PinType.Bed:
@@ -157,8 +177,7 @@ namespace valheimEnhancments.commands
                         break;
 
                     case Minimap.PinType.None:
-                        name = "UnknownLocation" + unknownLocationCount;
-                        unknownLocationCount++;
+                        name = "UnknownLocation";
                         break;
 
                     default:
@@ -166,15 +185,17 @@ namespace valheimEnhancments.commands
                 }
 
                 if (string.IsNullOrWhiteSpace(name) == false)
-                    locations.Add(new Location(name, currentPin.m_type, x, z, y <= 0.1 ? (float?) null : y));
+                    locations.Add(new Location(name, currentPin.m_type, x, y, z));
             }
 
             return locations;
 
-            string GetDeath(Minimap.PinData pinData)
+            string GetUserGivenName(Minimap.PinData pinData)
             {
-                var deathCount = locations.Count(f => f.Type == Minimap.PinType.Death);
-                return deathCount == 0 ? "Death" : "Death" + deathCount;
+                if (string.IsNullOrWhiteSpace(pinData.m_name))
+                    return "UnnamedLocation";
+
+                return pinData.m_name;
             }
 
             string GetBossName(Minimap.PinData pinData)
@@ -196,9 +217,9 @@ namespace valheimEnhancments.commands
 
         private class Location
         {
-            public string Name { get; }
+            public string Name { get; set; }
 
-            public Func<(float x, float y, float? z)> GetCoordinates { get; }
+            public Func<(float x, float y, float z)> GetCoordinates { get; }
 
             public Minimap.PinType Type { get; }
 
@@ -208,7 +229,7 @@ namespace valheimEnhancments.commands
                 this.Type = type;
             }
 
-            public Location(string name, Minimap.PinType type, float x, float y, float? z = null)
+            public Location(string name, Minimap.PinType type, float x, float y, float z)
                 : this(name, type)
             {
                 this.GetCoordinates = () =>
@@ -217,7 +238,7 @@ namespace valheimEnhancments.commands
                 };
             }
 
-            public Location(string name, Minimap.PinType type, Func<(float x, float y, float? z)> getCoordinatesFunc)
+            public Location(string name, Minimap.PinType type, Func<(float x, float y, float z)> getCoordinatesFunc)
                 : this(name, type)
             {
                 this.GetCoordinates = getCoordinatesFunc;
@@ -226,7 +247,7 @@ namespace valheimEnhancments.commands
             public override string ToString()
             {
                 (var x, var y, var z) = this.GetCoordinates();
-                return $"{this.Name} (x={x} y={y}{(z.HasValue ? $" z={z}" : string.Empty)})";
+                return $"{this.Name} (x={x.FormatCoordinate()} y={y.FormatCoordinate()} z={z.FormatCoordinate()})";
             }
         }
 
@@ -244,7 +265,7 @@ namespace valheimEnhancments.commands
                 }
             });
 
-            ZLog.Log($"Gathered all pins:{Environment.NewLine}{string.Join(Environment.NewLine, allPins.Select(f => f.m_name + " " + f.m_type + $"(x={f.m_pos.x} y={f.m_pos.y}{f.m_pos.z}"))}");
+            ZLog.Log($"Gathered all pins:{Environment.NewLine}{string.Join(Environment.NewLine, allPins.Select(f => f.m_name + " " + f.m_type + $"(x={f.m_pos.x.FormatCoordinate()} y={f.m_pos.y.FormatCoordinate()} z={f.m_pos.z.FormatCoordinate()})"))}");
             return allPins;
         }
     }

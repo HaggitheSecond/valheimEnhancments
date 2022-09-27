@@ -12,7 +12,7 @@ namespace valheimEnhancments.commands.chains
 
         public override List<valheimEnhancmentsCommand> Commands => new List<valheimEnhancmentsCommand>
         {
-            new valheimEnhnacmnetsDebugModeCommand(),
+            new valheimEnhancmentsDebugModeCommand(),
             new valheimEnhancmentsGodCommand(),
             new valheimEnhancmentsGhostCommand(),
             new valheimEnhancmentsStaminaCommand(),
@@ -24,16 +24,16 @@ namespace valheimEnhancments.commands.chains
             new valheimEnhancmentsRavenCommand()
         };
 
-        public override string[] ModifyArguments(string[] arguments)
+        public override List<string> ModifyArguments(List<string> arguments)
         {
-            if (arguments.Length != 1)
+            if (arguments.Count != 1)
                 return this._defaultReturnValue;
 
             var argument = arguments[0] ?? string.Empty;
 
             if (string.Equals("false", argument, StringComparison.InvariantCultureIgnoreCase) || string.Equals("survival", argument, StringComparison.InvariantCultureIgnoreCase))
             {
-                return new[]
+                return new List<string>
                 {
                     "false"
                 };
@@ -42,7 +42,7 @@ namespace valheimEnhancments.commands.chains
             return this._defaultReturnValue;
         }
 
-        public string[] _defaultReturnValue => new[]
+        public List<string> _defaultReturnValue => new List<string>
                 {
                     "true"
                 };

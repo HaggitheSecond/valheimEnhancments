@@ -17,10 +17,14 @@ namespace valheimEnhancments.helpers
             if(lines == null || lines.Count == 0)
                 throw new ArgumentException("lines cannot be null or empty");
 
+            var delimiter = ";";
+
             var builder = new StringBuilder();
 
+            builder.AppendLine($"sep={delimiter}");
+
             if (headers.Count != 0)
-                builder.AppendLine(string.Join(",", headers));
+                builder.AppendLine(string.Join(delimiter, headers));
 
             foreach (var currentLine in lines)
             {
@@ -32,7 +36,7 @@ namespace valheimEnhancments.helpers
                     else
                         actualValue = currentValue.ToString();
 
-                    builder.Append($"{actualValue},");
+                    builder.Append($"{actualValue}{delimiter}");
                 }
 
                 builder.AppendLine();

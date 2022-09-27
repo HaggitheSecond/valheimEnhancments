@@ -10,7 +10,7 @@ namespace valheimEnhancments.commands
         public override string Description => "testcommand";
         public override string Syntax => "";
 
-        public override void Execute(Terminal instance, string[] arguments)
+        public override void Execute(Terminal instance, List<string> arguments)
         {
             instance.AddString("Test is working!");
         }

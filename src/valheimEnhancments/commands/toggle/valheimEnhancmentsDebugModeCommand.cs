@@ -6,7 +6,7 @@ using valheimEnhancments.extensions;
 
 namespace valheimEnhancments.commands.toggle
 {
-    public class valheimEnhnacmnetsDebugModeCommand : valheimEnhancmentsToogleCommand
+    public class valheimEnhancmentsDebugModeCommand : valheimEnhancmentsToogleCommand
     {
         public override string Name => "debug";
         public override string Description => "Toggles debug mode";
@@ -20,6 +20,9 @@ namespace valheimEnhancments.commands.toggle
                 return;
 
             Player.m_localPlayer.ToggleNoPlacementCost();
+            Player.m_localPlayer.GetSEMan().RemoveAllStatusEffects(true);
+
+            InventoryGui.instance.m_craftDuration = newValue ? 0.2f : 2f;
         }
 
         public override string GetChatOutput(bool newValue)
@@ -69,6 +72,11 @@ namespace valheimEnhancments.commands.toggle
         [HarmonyPatch(typeof(ItemStand), "UpdateAttach")]
         private static class valheimEnhancmentsItemStandUpdateAttachModification
         {
+            // the goal here is simple: 
+            // when adding an item to an ItemStand do NOT remove it from the inventory of the player
+            // inside this method, UnequipItem and RemoveOneItem are called
+            // so we simply ignore those methods if we're inside UpdateAttach
+
             public static bool IgnoreItemRemovals { get; private set; }
 
             private static bool Prefix()

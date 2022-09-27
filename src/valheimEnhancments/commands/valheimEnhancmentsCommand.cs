@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using valheimEnhancments.extensions;
 
 namespace valheimEnhancments.commands
@@ -9,7 +10,7 @@ namespace valheimEnhancments.commands
 
         public abstract string Description { get; }
         public abstract string Syntax { get; }
-        public abstract void Execute(Terminal instance, string[] arguments);
+        public abstract void Execute(Terminal instance, List<string> arguments);
 
         public override string ToString()
         {

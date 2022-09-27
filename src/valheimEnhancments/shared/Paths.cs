@@ -40,7 +40,7 @@ namespace valheimEnhancments.Shared
         {
             public const string Name = "valheimEnhancments";
             public const string Description = "valheimEnhancments is a plugin for valheim";
-            public const string Guid = "B877D5A0-27B0-425C-B972-FA40279D02F6";
+            public const string Guid = "valheimEnhancments";
 
             public const string Version = "1.0.0.0";
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace valheimEnhancments.commands
 {
@@ -8,12 +9,12 @@ namespace valheimEnhancments.commands
         public override string Description => "Raises all skills to [value]";
         public override string Syntax => "none or [value]";
 
-        public override void Execute(Terminal instance, string[] arguments)
+        public override void Execute(Terminal instance, List<string> arguments)
         {
             var value = 100f;
 
-            if (arguments.Length > 0 && float.TryParse(arguments[0], out var innervalue))
-                value = innervalue;
+            if (arguments.Count > 0 && float.TryParse(arguments[0], out var argumentValue))
+                value = argumentValue;
 
             var skills = Player.m_localPlayer.GetSkills();
 

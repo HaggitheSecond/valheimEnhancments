@@ -7,6 +7,7 @@ using System.Reflection;
 using valheimEnhancments.commands;
 using valheimEnhancments.commands.chains;
 using valheimEnhancments.commands.toggle;
+using valheimEnhancments.config;
 using static Terminal;
 using PluginPaths = valheimEnhancments.Shared.Paths.valheimEnhancementsPlugin;
 
@@ -17,7 +18,8 @@ namespace valheimEnhancments
     {
         private void Awake()
         {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+            ConfigManager.Instance.Create(this);
+            Harmony.CreateAndPatchAll(Assembly.GetAssembly(this.GetType()));
         }
 
         [HarmonyPatch(typeof(Terminal), "InitTerminal")]
@@ -26,6 +28,23 @@ namespace valheimEnhancments
             private static void Postfix(Terminal __instance)
             {
                 GenerateConsoleCommands();
+            }
+        }
+
+        [HarmonyPatch(typeof(Player), "OnSpawned")]
+        private static class valheimEnhancmentsPlayerAwakeModification
+        {
+            private static void Postfix(Player __instance)
+            {
+                if (__instance == null)
+                    return;
+
+                var config = ConfigManager.Instance.GetPerCharacterConfig(__instance.GetPlayerName());
+
+                if(config.IsGamemodeCreative.Value)
+                {
+                    Console.instance.TryRunCommand(new valheimEnhancmentsCreativeChainCommand().Name);
+                }
             }
         }
 
@@ -47,9 +66,9 @@ namespace valheimEnhancments
                     }
 
                     if (args.Args.Length > 1)
-                        currentCommand.Execute(args.Context, args.Args.ToList().Skip(1).ToArray());
+                        currentCommand.Execute(args.Context, args.Args.ToList().Skip(1).ToList());
                     else
-                        currentCommand.Execute(args.Context, args.Args);
+                        currentCommand.Execute(args.Context, new List<string>());
                 });
             }
         }

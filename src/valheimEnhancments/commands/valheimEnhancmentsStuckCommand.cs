@@ -1,4 +1,6 @@
-﻿namespace valheimEnhancments.commands
+﻿using System.Collections.Generic;
+
+namespace valheimEnhancments.commands
 {
     public class valheimEnhancmentsStuckCommand : valheimEnhancmentsCommand
     {
@@ -6,7 +8,7 @@
         public override string Description => "Unstucks the player by teleporting 50 blocks up";
         public override string Syntax => "";
 
-        public override void Execute(Terminal instance, string[] arguments)
+        public override void Execute(Terminal instance, List<string> arguments)
         {
             var localPlayer = Player.m_localPlayer;
 

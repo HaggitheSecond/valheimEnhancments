@@ -46,5 +46,10 @@ namespace valheimEnhancments.extensions
 
             return output;
         }
+
+        public static string FormatCoordinate(this float self)
+        {
+            return self.ToString("F0");
+        }
     }
 }

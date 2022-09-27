@@ -201,13 +201,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="commands\chains\valheimEnhancmentsChainCommand.cs" />
+    <Compile Include="commands\toggle\valheimEnhancmentsAllowUnderwaterCommand.cs" />
+    <Compile Include="commands\toggle\valheimEnhancmentsOnePunchManCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsRavenCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsScreenShakeCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsBuildSupportCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsDurabilityCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsItemClipingCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsNoClipCommand.cs" />
+    <Compile Include="commands\toggle\valheimEnhancmentsSlideCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsWeatherCommand.cs" />
+    <Compile Include="commands\valheimEnhancmentsClearInventoryCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsCommand.cs" />
     <Compile Include="commands\chains\valheimEnhancmentsCreativeChainCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsGhostCommand.cs" />
@@ -218,14 +222,17 @@
     <Compile Include="commands\toggle\valheimEnhancmentsNoItemDropsCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsStaminaCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsToogleCommand.cs" />
-    <Compile Include="commands\toggle\valheimEnhnacmnetsDebugModeCommand.cs" />
+    <Compile Include="commands\toggle\valheimEnhancmentsDebugModeCommand.cs" />
+    <Compile Include="commands\valheimEnhancmentsItemSetCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsListCommands.cs" />
     <Compile Include="commands\valheimEnhancmentsSleepCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsStuckCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsTpCommand.cs" />
+    <Compile Include="config\ConfigManager.cs" />
     <Compile Include="extensions\StringExtensions.cs" />
     <Compile Include="extensions\ZLogHelper.cs" />
     <Compile Include="fixes\valheimEnhancmentsInvalidItemInInventoryFix.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="helpers\CsvWriter.cs" />
     <Compile Include="shared\Paths.cs" />
     <Compile Include="valheimEnhancmentsPlugin.cs" />

@@ -6,12 +6,12 @@ namespace valheimEnhancments.commands.chains
     {
         public abstract List<valheimEnhancmentsCommand> Commands { get; }
 
-        public virtual string[] ModifyArguments(string[] arguments)
+        public virtual List<string> ModifyArguments(List<string> arguments)
         {
             return arguments;
         }
 
-        public override void Execute(Terminal instance, string[] arguments)
+        public override void Execute(Terminal instance, List<string> arguments)
         {
             arguments = this.ModifyArguments(arguments);
 
