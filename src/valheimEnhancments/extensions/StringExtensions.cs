@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace valheimEnhancments.extensions
 {
@@ -14,6 +15,19 @@ namespace valheimEnhancments.extensions
                 return self;
 
             return self.Replace("\r", replacement).Replace("\n", replacement).Replace(Environment.NewLine, replacement);
+        }
+
+        public static string EnsureLenght(this string self, char filler, int lenght)
+        {
+            if (self is null)
+                self = string.Empty;
+
+            if (self.Length >= lenght)
+                return self;
+
+            self += new string(filler, lenght - self.Length);
+
+            return self;
         }
 
         public static string CapitalizeFirstLetter(this string self, bool forceToLower = true)

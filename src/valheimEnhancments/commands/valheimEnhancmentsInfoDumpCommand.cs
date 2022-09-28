@@ -11,11 +11,16 @@ using valheimEnhancments.Shared;
 
 namespace valheimEnhancments.commands
 {
-    public class valheimEnhancmentsInfoDumpCommand : valheimEnhancmentsCommand
+    public class valheimEnhancmentsItemDumpCommand : valheimEnhancmentsCommand
     {
         public override string Name => "dumpiteminfo";
         public override string Description => "dumps all item infos to a text file";
         public override string Syntax => "none or [includerecipeless]";
+
+        public valheimEnhancmentsItemDumpCommand()
+        {
+            this.NeedsLocalPlayer = false;
+        }
 
         public override void Execute(Terminal instance, List<string> arguments)
         {
@@ -43,48 +48,24 @@ namespace valheimEnhancments.commands
                 "dlc"
             };
 
-            foreach (var currentItemType in Enum.GetValues(typeof(ItemDrop.ItemData.ItemType)) as ItemDrop.ItemData.ItemType[])
+            foreach (var currentItem in ItemHelper.GetAllItems(includerecipeless == false))
             {
-                var items = ObjectDB.instance.GetAllItems(currentItemType, string.Empty);
-
-                foreach (var currentItem in items)
+                var values = new List<object>
                 {
-                    var recipe = ObjectDB.instance.GetRecipe(currentItem.m_itemData);
+                    currentItem.Type,
+                    currentItem.Item.name,
+                    currentItem.Description,
+                    currentItem.SharedData.m_maxStackSize,
+                    currentItem.SharedData.m_weight,
+                    currentItem.SharedData.m_teleportable,
+                    currentItem.SharedData.m_maxDurability,
+                    currentItem.Recipe != null,
+                    currentItem.SharedData.m_dlc
+                };
 
-                    var shared = currentItem.m_itemData.m_shared;
+                lines.Add(values);
 
-                    string description;
-                    if (shared.m_description.Contains("$"))
-                    {
-                        description = Localization.instance.Localize(shared.m_description.Substring(shared.m_description.IndexOf("$")));
-                    }
-                    else
-                    {
-                        description = shared.m_description;
-                    }
-
-                    var hasRecipe = recipe != null;
-
-                    if (includerecipeless == false && hasRecipe == false)
-                        continue;
-
-                    var values = new List<object>
-                    {
-                        currentItemType,
-                        currentItem.name,
-                        description,
-                        shared.m_maxStackSize,
-                        shared.m_weight,
-                        shared.m_teleportable,
-                        shared.m_maxDurability,
-                        hasRecipe,
-                        shared.m_dlc
-                    };
-
-                    lines.Add(values);
-
-                    //ZLog.Log($"{string.Join(", ", values)}");
-                }
+                //ZLog.Log($"{string.Join(", ", values)}");
             }
 
             ZLog.Log($"Dumping all items to {Paths.valheim.ItemDumpFileLocation}");
@@ -96,12 +77,12 @@ namespace valheimEnhancments.commands
         {
             private static void Postfix()
             {
-                if (Console.instance == null 
-                    || Console.instance.IsConsoleEnabled() == false 
+                if (Console.instance == null
+                    || Console.instance.IsConsoleEnabled() == false
                     || ConfigManager.Instance.InfoDumpOnStartup.Value == false)
                     return;
 
-                Console.instance.TryRunCommand(new valheimEnhancmentsInfoDumpCommand().Name);
+                Console.instance.TryRunCommand(new valheimEnhancmentsItemDumpCommand().Name);
             }
         }
     }

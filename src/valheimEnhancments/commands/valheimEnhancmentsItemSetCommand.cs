@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using valheimEnhancments.helpers;
 
 namespace valheimEnhancments.commands
 {
@@ -12,6 +13,11 @@ namespace valheimEnhancments.commands
 
         private List<ItemSet> _sets;
 
+        public override List<string> GetOptions()
+        {
+            return this._sets.Select(f => f.Name).ToList();
+        }
+
         public valheimEnhancmentsItemSetCommand()
         {
             this._sets = new List<ItemSet>
@@ -19,15 +25,15 @@ namespace valheimEnhancments.commands
                 new ItemSet()
                 {
                     Name = "Creative",
-                    Items = new List<Item>
+                    Items = new List<ItemSetItem>
                     {
-                       new Item("Hammer", equip:true),
-                       new Item("Hoe"),
-                       new Item("Cultivator"),
-                       new Item("HelmetMidsummerCrown", equip:true),
-                       new Item("ArmorIronChest", equip:true),
-                       new Item("ArmorIronLegs", equip:true),
-                       new Item("CapeLinen", equip:true)
+                       new ItemSetItem("Hammer", equip:true),
+                       new ItemSetItem("Hoe"),
+                       new ItemSetItem("Cultivator"),
+                       new ItemSetItem("HelmetMidsummerCrown", equip:true),
+                       new ItemSetItem("ArmorIronChest", equip:true),
+                       new ItemSetItem("ArmorIronLegs", equip:true),
+                       new ItemSetItem("CapeLinen", equip:true)
                     }
                 }
             };
@@ -52,9 +58,9 @@ namespace valheimEnhancments.commands
             foreach (var currentItem in set.Items)
             {
                 instance.TryRunCommand($"{new valheimEnhancmentsItemCommand().Name} {currentItem.Name} " +
-                    $"{(currentItem.Amount.HasValue ? currentItem.Amount.ToString() : string.Empty)} " +
-                    $"{(currentItem.Quality.HasValue ? currentItem.Quality.ToString() : string.Empty)} " +
-                    $"{(currentItem.Variant.HasValue ? currentItem.Variant.ToString() : string.Empty)} " +
+                    $"{currentItem.Amount.GetValueOrDefault()} " +
+                    $"{currentItem.Quality.GetValueOrDefault()} " +
+                    $"{currentItem.Variant.GetValueOrDefault()} " +
                     $"{currentItem.Equip}");
             }
         }
@@ -62,10 +68,10 @@ namespace valheimEnhancments.commands
         private class ItemSet
         {
             public string Name { get; set; }
-            public List<Item> Items { get; set; }
+            public List<ItemSetItem> Items { get; set; }
         }
 
-        private class Item
+        private class ItemSetItem
         {
             public string Name { get; set; }
             public int? Amount { get; set; }
@@ -73,7 +79,7 @@ namespace valheimEnhancments.commands
             public int? Variant { get; set; }
             public bool Equip { get; set; }
 
-            public Item(string name, int? amount = null, int? quality = null, int? variant = null, bool equip = false)
+            public ItemSetItem(string name, int? amount = null, int? quality = null, int? variant = null, bool equip = false)
             {
                 this.Name = name;
 

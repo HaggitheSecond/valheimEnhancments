@@ -17,6 +17,11 @@ namespace valheimEnhancments.commands
             Environment.NewLine + "Available locations:" +
             Environment.NewLine + string.Join(Environment.NewLine, this.GetLocations());
 
+        public override List<string> GetOptions()
+        {
+            return this.GetLocations().Select(f => f.Name).ToList();
+        }
+
         public override void Execute(Terminal instance, List<string> arguments)
         {
             string result;

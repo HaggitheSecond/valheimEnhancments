@@ -234,6 +234,7 @@
     <Compile Include="fixes\valheimEnhancmentsInvalidItemInInventoryFix.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="helpers\CsvWriter.cs" />
+    <Compile Include="helpers\ItemHelper.cs" />
     <Compile Include="shared\Paths.cs" />
     <Compile Include="valheimEnhancmentsPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

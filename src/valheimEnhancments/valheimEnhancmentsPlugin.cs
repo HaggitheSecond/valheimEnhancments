@@ -52,24 +52,39 @@ namespace valheimEnhancments
         {
             foreach (var currentCommand in GetCommands())
             {
-                new ConsoleCommand(currentCommand.Name, currentCommand.ToString(), (ConsoleEventArgs args) =>
-                {
-                    ZLog.Log(string.Join(" ", args.Args) + Environment.NewLine + currentCommand.ToString());
-
-                    if (args.Context == null)
-                        return;
-
-                    if (args.Context.IsCheatsEnabled() == false)
+                new ConsoleCommand(
+                    currentCommand.Name, 
+                    currentCommand.ToString(), 
+                    (ConsoleEventArgs args) =>
                     {
-                        args.Context.TryRunCommand("devcommands");
-                        args.Context.AddString("");
-                    }
+                        ZLog.Log(string.Join(" ", args.Args) + Environment.NewLine + currentCommand.ToString());
 
-                    if (args.Args.Length > 1)
-                        currentCommand.Execute(args.Context, args.Args.ToList().Skip(1).ToList());
-                    else
-                        currentCommand.Execute(args.Context, new List<string>());
-                });
+                        if (args.Context == null)
+                            return;
+
+                        if(currentCommand.NeedsLocalPlayer && Player.m_localPlayer == null)
+                        {
+                            args.Context.AddString($"Command {currentCommand.Name} needs a local player to run!");
+                            return;
+                        }
+
+                        if (args.Context.IsCheatsEnabled() == false)
+                        {
+                            args.Context.TryRunCommand("devcommands");
+                            args.Context.AddString("");
+                        }
+
+                        if (args.Args.Length > 1)
+                            currentCommand.Execute(args.Context, args.Args.ToList().Skip(1).ToList());
+                        else
+                            currentCommand.Execute(args.Context, new List<string>());
+                    }, 
+                    currentCommand.IsCheat,
+                    currentCommand.IsNetwork,
+                    currentCommand.OnlyServer,
+                    currentCommand.IsSecret,
+                    currentCommand.AllowInDevBuild,
+                    optionsFetcher: new Terminal.ConsoleOptionsFetcher(currentCommand.GetOptions));
             }
         }
 

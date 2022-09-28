@@ -20,6 +20,7 @@ namespace valheimEnhancments.commands.toggle
                 return;
 
             Player.m_localPlayer.ToggleNoPlacementCost();
+            Player.m_localPlayer.ClearHardDeath();
             Player.m_localPlayer.GetSEMan().RemoveAllStatusEffects(true);
 
             InventoryGui.instance.m_craftDuration = newValue ? 0.2f : 2f;

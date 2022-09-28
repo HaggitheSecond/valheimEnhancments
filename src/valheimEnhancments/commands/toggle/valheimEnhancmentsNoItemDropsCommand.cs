@@ -11,6 +11,7 @@ namespace valheimEnhancments.commands.toggle
 
         public static bool NoItemDrops { get; set; }
 
+
         [HarmonyPatch(typeof(ItemDrop), "TimedDestruction")]
         private static class valheimEnhancmentsItemDropModification
         {

@@ -6,7 +6,7 @@ namespace valheimEnhancments.commands
     public class valheimEnhancmentsAllSkillCommand : valheimEnhancmentsCommand
     {
         public override string Name => "setskills";
-        public override string Description => "Raises all skills to [value]";
+        public override string Description => "Sets all skills to [value]";
         public override string Syntax => "none or [value]";
 
         public override void Execute(Terminal instance, List<string> arguments)
