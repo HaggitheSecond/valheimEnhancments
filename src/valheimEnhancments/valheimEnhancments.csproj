@@ -216,6 +216,7 @@
     <Compile Include="commands\chains\valheimEnhancmentsCreativeChainCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsGhostCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsGodCommand.cs" />
+    <Compile Include="commands\valheimEnhancmentsEatCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsInfoDumpCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsItemCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsAllSkillCommand.cs" />

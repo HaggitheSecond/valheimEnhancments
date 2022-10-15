@@ -2,21 +2,21 @@
 
 namespace valheimEnhancments.commands.toggle
 {
-    public class valheimEnhancmentsOnePunchManCommand : valheimEnhancmentsToogleCommand
+    public class valheimEnhancmentsOnePunchVikingCommand : valheimEnhancmentsToogleCommand
     {
         public override string Name => "onepunchviking";
-        public override string Description => "enables one punchman mode";
-        public override bool GetToggleValue() => valheimEnhancmentsOnePunchManCommand.OnePunchMan;
-        public override void SetToggleValue(bool newValue) => valheimEnhancmentsOnePunchManCommand.OnePunchMan = newValue;
+        public override string Description => "enables onepunchviking mode";
+        public override bool GetToggleValue() => valheimEnhancmentsOnePunchVikingCommand.OnePunchViking;
+        public override void SetToggleValue(bool newValue) => valheimEnhancmentsOnePunchVikingCommand.OnePunchViking = newValue;
 
-        public static bool OnePunchMan { get; set; }
+        public static bool OnePunchViking { get; set; }
 
         [HarmonyPatch(typeof(HitData), "GetTotalDamage")]
         private static class valheimEnhancmentsGetTotalDamageModification
         {
             private static bool Prefix(HitData __instance, ref float __result)
             {
-                if (valheimEnhancmentsOnePunchManCommand.OnePunchMan == false)
+                if (valheimEnhancmentsOnePunchVikingCommand.OnePunchViking == false)
                     return true;
 
                 var attacker = __instance.GetAttacker();
