@@ -1,0 +1,9 @@
+﻿Config
+> proper config for all commands
+> better config what commands per character
+> per world setting?
+
+Server only
+> test what works on server and what doesnt
+
+Debugging

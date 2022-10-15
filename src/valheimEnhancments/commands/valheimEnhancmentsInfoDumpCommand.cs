@@ -24,14 +24,6 @@ namespace valheimEnhancments.commands
 
         public override void Execute(Terminal instance, List<string> arguments)
         {
-            var fileInfo = new FileInfo(Paths.valheim.ItemDumpFileLocation);
-
-            if (fileInfo.Exists && fileInfo.CreationTime != default && fileInfo.CreationTime.AddHours(24) > DateTime.Now)
-            {
-                ZLog.Log("ItemsDump less than 24 hours old, no need to update");
-                return;
-            }
-
             var includerecipeless = arguments.Count > 0 && arguments[0] == "includerecipeless";
 
             var lines = new List<List<object>>();
