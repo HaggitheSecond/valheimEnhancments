@@ -33,11 +33,6 @@ namespace valheimEnhancments.commands
                 return;
             }
 
-            var player = Player.m_localPlayer;
-
-            if (player == null)
-                return;
-
             var amount = GetIntValueFromArgument(arguments.ElementAtOrDefault(1), item.m_itemData.m_shared.m_maxStackSize);
             var quality = GetIntValueFromArgument(arguments.ElementAtOrDefault(2), item.m_itemData.m_shared.m_maxQuality);
             var variant = GetIntValueFromArgument(arguments.ElementAtOrDefault(3), 0);
@@ -46,7 +41,7 @@ namespace valheimEnhancments.commands
             if (arguments.ElementAtOrDefault(4) != null && bool.TryParse(arguments.ElementAtOrDefault(4), out var equip2))
                 equip = equip2;
 
-            var addedItem = player.GetInventory()
+            var addedItem = Player.m_localPlayer.GetInventory()
                   .AddItem(item.name,
                       amount,
                       quality,
@@ -55,7 +50,7 @@ namespace valheimEnhancments.commands
                       Player.m_localPlayer.GetPlayerName());
 
             if (equip && addedItem.IsEquipable())
-                player.EquipItem(addedItem, false);
+                Player.m_localPlayer.EquipItem(addedItem, false);
 
             instance.AddString($"Added {amount}x {item.name} with quality {quality} and variant {variant} to {Player.m_localPlayer.GetPlayerName()}'s inventory" + (equip ? ", and equiped it." : string.Empty));
 

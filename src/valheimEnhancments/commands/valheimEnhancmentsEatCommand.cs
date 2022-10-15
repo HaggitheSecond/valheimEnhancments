@@ -1,9 +1,5 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using valheimEnhancments.extensions;
 using valheimEnhancments.helpers;
 
 namespace valheimEnhancments.commands
@@ -18,9 +14,6 @@ namespace valheimEnhancments.commands
 
         public override void Execute(Terminal instance, List<string> arguments)
         {
-            if (Player.m_localPlayer is null)
-                return;
-
             var items = ItemHelper.GetAllItems();
             var foodNames = new List<string>()
             {

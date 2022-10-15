@@ -211,6 +211,7 @@
     <Compile Include="commands\toggle\valheimEnhancmentsNoClipCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsSlideCommand.cs" />
     <Compile Include="commands\toggle\valheimEnhancmentsWeatherCommand.cs" />
+    <Compile Include="commands\valheimEnhancmentsClearFoodCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsClearInventoryCommand.cs" />
     <Compile Include="commands\valheimEnhancmentsCommand.cs" />
     <Compile Include="commands\chains\valheimEnhancmentsCreativeChainCommand.cs" />

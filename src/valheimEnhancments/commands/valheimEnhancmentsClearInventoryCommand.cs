@@ -11,9 +11,6 @@ namespace valheimEnhancments.commands
 
         public override void Execute(Terminal instance, List<string> arguments)
         {
-            if (Player.m_localPlayer == null)
-                return;
-
             var inventory = Player.m_localPlayer.GetInventory();
 
             if (inventory == null)
